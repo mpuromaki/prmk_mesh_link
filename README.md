@@ -32,7 +32,7 @@ Raspberry Pi 4b supported USB-C 5V 3A power supply is used. Power is connected t
 
 ## PRMK infrastructure
 
-PRMK infrastructure is set up to support the usage of PRMK Mesh Link devices. This infrastructure will consist of central server available via Internet (and maybe later Reticulum as well), and trusted peer devices forming backhaul mesh network. Trust is managed via cryptography and anchored in the fact that all parts of this infrastructure is owned, managed and operated by the same entity.
+PRMK infrastructure is set up to support the usage of PRMK Mesh Link devices. This infrastructure will consist of central server available via Internet (and maybe later Reticulum as well), and trusted peer devices forming backhaul mesh network. Trust is managed via cryptography and anchored in the fact that all parts of this infrastructure is owned, managed and operated by the same entity. The backhaul network will be formed as interface links through the internet, but later other connectivity mechanisms might also become available.
 
 Backhaul network consists of multiple PRMK Mesh Link devices which have been manually enrolled by separate infrastructure mechanism. With the help of the central server peering interfaces are set up for fully dense mesh network between these trusted devices. Each link has separate IFAC codes to make sure that in case of trusted device compromise, the blast radius is kept as small as possible. Also the central server should have no mechanism to remotely control these devices; configuration is pull based and initiated by the devices. Idea is that compromise of the central server must not compromise the current network's operations. Each peer devices also have public interface for allowing connections from leaf devices. Each peer devices might also later have interfaces to the global reticulum network.
 
@@ -43,3 +43,13 @@ Some additional metrics / reporting will likely be implemented for the peer devi
 Two reticulum network identities are used by this infrastructure: PRMK Peering identity and PRMK public identity. Devices get these identities during the first time setup process, with peering process being locked down by some kind of time-gated manual sidechannel pre-shared key mechanism. The public identity allows leaf devices to automatically learn new peer devices interfaces via standard reticulum announce mechanisms, allowing the mesh to improve over time.
 
 And of course users can configure additional interfaces to their devices as they see fit.
+
+## Leaf mesh link devices
+
+For the normal use-case of using mesh link devices for leaf nodes, the setup process should be as simple as possible. Preconfigured image is flashed to sdcard and the device is booted off from that. It creates wifi network which then presents first time setup web page via an captive portal. This setup is used to set randomised root password, home wifi network details and permission to bootstrap from PRMK infrastructure. After applying the settings the device would set up these configured items and reboot.
+
+If bootstrap permission is given, the device would contact the well known central server via home wifi internet access. The central server will provide information about current peer nodes public interfaces and the prmk public identity. This identity is set as trusted identity with interface discovery enabled, so that the local device will automatically learn about new trusted peer devices. User can manually remove this identity to allow learning about any new interface, or adding some other trusted identity to the list.
+
+the preconfigured image would have set up background processes for automatic updates provided by the operating system. Also there needs to be some mechanism to update the required prmk mesh link specific middleware software.
+
+These leaf devices would then act as routers for the home. Any device connected to the home network would find the leaf device via an AutoInterface, which could then transport messages to other known devices in the wider mesh.
