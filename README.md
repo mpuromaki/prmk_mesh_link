@@ -29,3 +29,17 @@ Basic version of PRMK infrastructure is to be set up with these devices, includi
 ### Power supply
 
 Raspberry Pi 4b supported USB-C 5V 3A power supply is used. Power is connected to the Raspberry Pi 4b, which then powers the RNode device via USB-A port as well.
+
+## PRMK infrastructure
+
+PRMK infrastructure is set up to support the usage of PRMK Mesh Link devices. This infrastructure will consist of central server available via Internet (and maybe later Reticulum as well), and trusted peer devices forming backhaul mesh network. Trust is managed via cryptography and anchored in the fact that all parts of this infrastructure is owned, managed and operated by the same entity.
+
+Backhaul network consists of multiple PRMK Mesh Link devices which have been manually enrolled by separate infrastructure mechanism. With the help of the central server peering interfaces are set up for fully dense mesh network between these trusted devices. Each link has separate IFAC codes to make sure that in case of trusted device compromise, the blast radius is kept as small as possible. Also the central server should have no mechanism to remotely control these devices; configuration is pull based and initiated by the devices. Idea is that compromise of the central server must not compromise the current network's operations. Each peer devices also have public interface for allowing connections from leaf devices. Each peer devices might also later have interfaces to the global reticulum network.
+
+There must be a way to remote manage these devices. This likely will be SSH over internet with different random password for each device. Main way to handle updates and such should be automatic device initiated update process, with random cooldown / jitter for each device.
+
+Some additional metrics / reporting will likely be implemented for the peer devices. This likely will include imprecise location to allow mesh map drawing at the central server. The central server will likely have some public information related to the mesh.
+
+Two reticulum network identities are used by this infrastructure: PRMK Peering identity and PRMK public identity. Devices get these identities during the first time setup process, with peering process being locked down by some kind of time-gated manual sidechannel pre-shared key mechanism. The public identity allows leaf devices to automatically learn new peer devices interfaces via standard reticulum announce mechanisms, allowing the mesh to improve over time.
+
+And of course users can configure additional interfaces to their devices as they see fit.
