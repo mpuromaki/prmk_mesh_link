@@ -1,0 +1,14 @@
+[Unit]
+Description=PRMK Middleware: First time setup wifi hotspot
+After=network.target NetworkManager.service
+Wants=NetworkManager.service
+ConditionPathExists=!/etc/flags/first_time_setup_complete
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/opt/prmk/bin/prmk-setup-hotspot.sh
+TimeoutStartSec=30
+
+[Install]
+WantedBy=multi-user.target
