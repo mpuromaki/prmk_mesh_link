@@ -24,12 +24,39 @@ Power on the device. Connect ethernet cable. Login with user ```build```.
 sudo apt update && sudo apt upgrade
 sudo apt install wget python3 python3-pip python3-cryptography python3-pyserial python3-bleak
 
-sudo adduser --disabled-password middleware
-
 sudo adduser --disabled-password reticulum
 sudo usermod -aG dialout reticulum
 
-sudo mkdir /etc/flags
+sudo mkdir --parents /etc/flags
+sudo mkdir --parents /opt/prmk/bin
+sudo mkdir --parents /opt/prmk/system
+```
+
+### Download middleware
+
+```sh
+# Middleware required for first time setup functionality
+sudo wget -O /opt/prmk/bin/prmk-setup-hotspot.sh https://raw.githubusercontent.com/mpuromaki/prmk_mesh_link/refs/heads/main/base_image_rpi4b/prmk-setup-hotspot.sh
+sudo wget -O /opt/prmk/system/prmk-setup-hotspot.service https://raw.githubusercontent.com/mpuromaki/prmk_mesh_link/refs/heads/main/base_image_rpi4b/prmk-setup-hotspot.service
+sudo wget -O /opt/prmk/bin/prmk-setup-server.py https://raw.githubusercontent.com/mpuromaki/prmk_mesh_link/refs/heads/main/base_image_rpi4b/prmk-setup-server.py
+sudo wget -O /opt/prmk/system/prmk-setup-server.service https://raw.githubusercontent.com/mpuromaki/prmk_mesh_link/refs/heads/main/base_image_rpi4b/prmk-setup-server.service
+
+# Middleware required for Reticulum
+sudo wget -O /opt/prmk/system/prmk-rnsd.service https://raw.githubusercontent.com/mpuromaki/prmk_mesh_link/refs/heads/main/base_image_rpi4b/rnsd.service
+
+# Set access rights
+sudo chown -R root:root /opt/prmk
+sudo find /opt/prmk -type d -exec chmod 755 {} +
+sudo chmod 755 /opt/prmk/bin/*
+sudo chmod 644 /opt/prmk/system/*
+```
+
+## Installing first time setup
+```sh
+sudo ln -s /opt/prmk/system/prmk-setup-hotspot.service /etc/systemd/system/
+sudo ln -s /opt/prmk/system/prmk-setup-server.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable prmk-setup-hotspot.service
 ```
 
 ## Installing Reticulum
@@ -50,17 +77,13 @@ exit
 ```
 
 ```sh
-# Clone rnsd.service to /etc/systemd/system/rnsd.service
-sudo wget -O /etc/systemd/system/rnsd.service https://raw.githubusercontent.com/mpuromaki/prmk_mesh_link/refs/heads/main/base_image_rpi4b/rnsd.service
-sudo chmod 644 /etc/systemd/system/rnsd.service
-
+sudo ln -s /opt/prmk/system/prmk-rnsd.service /etc/systemd/system/
 sudo systemctl daemon-reload
-sudo systemctl enable --now rnsd.service
-sudo systemctl status rnsd.service # CHECK: rnsd service is running
-
-sudo su - reticulum
-
-rnstatus # CHECK: rnsd is available
+sudo systemctl enable prmk-rnsd.service
 
 exit
 ```
+
+## Cleaning and creating the image
+
+TBD.
