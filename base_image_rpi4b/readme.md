@@ -58,11 +58,11 @@ sudo ln -s /opt/prmk/system/prmk-setup-server.service /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable prmk-setup-server.service
 ```
-ℹ️ TODO: Add captive portal for hotspot
-ℹ️ TODO: Allow root SSH login
-ℹ️ TODO: Fetch trusted nodes if allowed
-ℹ️ TODO: Install background tasks for updates etc
-ℹ️ TODO: Remove build user
+ℹ️ TODO: Add captive portal for hotspot  
+ℹ️ TODO: Allow root SSH login  
+ℹ️ TODO: Fetch trusted nodes if allowed  
+ℹ️ TODO: Install background tasks for updates etc  
+ℹ️ TODO: Remove build user  
 
 ## Installing Reticulum
 
