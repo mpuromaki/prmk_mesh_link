@@ -1,0 +1,14 @@
+[Unit]
+Description=PRMK Middleware: First time setup server
+After=prmk-setup-hotspot.service NetworkManager.service
+Requires=prmk-setup-hotspot.service
+ConditionPathExists=!/etc/flags/first_time_setup_complete
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/prmk/bin/prmk-setup-server.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
