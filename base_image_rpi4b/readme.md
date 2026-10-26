@@ -47,7 +47,7 @@ sudo wget -O /opt/prmk/system/prmk-rnsd.service https://raw.githubusercontent.co
 # Set access rights
 sudo chown -R root:root /opt/prmk
 sudo find /opt/prmk -type d -exec chmod 755 {} +
-sudo chmod 755 /opt/prmk/bin/*
+sudo chmod 754 /opt/prmk/bin/*
 sudo chmod 644 /opt/prmk/system/*
 ```
 
