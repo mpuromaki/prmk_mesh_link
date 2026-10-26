@@ -6,7 +6,7 @@ ConditionPathExists=!/etc/flags/first_time_setup_complete
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python3 /opt/prmk/bin/prmk-setup-server.py
+ExecStart=/usr/bin/python3 -u /opt/prmk/bin/prmk-setup-server.py
 Restart=on-failure
 RestartSec=5
 
