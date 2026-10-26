@@ -10,7 +10,7 @@ This document details how to build the base image for raspberry pi 4b from scrat
 ## Operating system
 
 Latest version of 64 bit Raspberry Pi OS Lite (https://www.raspberrypi.com/software/operating-systems/).
-Create user ```build``` with some known password. This will be deleted later.
+Create user ```build``` with password ```build```. This will be deleted later.
 Enable SSH with password login for build.
 Flash it to 16GB or larger micro-sd card and install it to the Raspberry Pi device.
 
