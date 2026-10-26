@@ -22,7 +22,7 @@ Power on the device. Connect ethernet cable. Login with user ```build```.
 
 ```sh
 sudo apt update && sudo apt upgrade
-sudo apt install python3 python3-pip python3-cryptography python3-pyserial python3-bleak
+sudo apt install wget python3 python3-pip python3-cryptography python3-pyserial python3-bleak
 
 sudo adduser --disabled-password middleware
 
@@ -51,6 +51,8 @@ exit
 
 ```sh
 # Clone rnsd.service to /etc/systemd/system/rnsd.service
+sudo wget -O /etc/systemd/system/rnsd.service https://raw.githubusercontent.com/mpuromaki/prmk_mesh_link/refs/heads/main/base_image_rpi4b/rnsd.service
+sudo chmod 644 /etc/systemd/system/rnsd.service
 
 sudo systemctl daemon-reload
 sudo systemctl enable --now rnsd.service
