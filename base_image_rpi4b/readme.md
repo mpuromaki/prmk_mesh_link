@@ -22,7 +22,7 @@ Power on the device. Connect ethernet cable. Login with user ```build```.
 
 ```sh
 sudo apt update && sudo apt upgrade
-sudo apt install wget python3 python3-pip python3-cryptography python3-pyserial python3-bleak
+sudo apt install wget python3 python3-pip python3-cryptography python3-serial python3-bleak
 
 sudo adduser --disabled-password reticulum
 sudo usermod -aG dialout reticulum
