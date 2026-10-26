@@ -56,7 +56,7 @@ sudo chmod 644 /opt/prmk/system/*
 sudo ln -s /opt/prmk/system/prmk-setup-hotspot.service /etc/systemd/system/
 sudo ln -s /opt/prmk/system/prmk-setup-server.service /etc/systemd/system/
 sudo systemctl daemon-reload
-sudo systemctl enable prmk-setup-hotspot.service
+sudo systemctl enable prmk-setup-server.service
 ```
 
 ## Installing Reticulum
