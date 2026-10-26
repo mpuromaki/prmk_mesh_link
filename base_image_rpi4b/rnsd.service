@@ -1,0 +1,14 @@
+[Unit]
+Description=Reticulum Network Stack Daemon
+After=default.target
+ConditionPathExists=/etc/flags/first_time_setup_complete
+
+[Service]
+User=reticulum
+Type=simple
+Restart=always
+RestartSec=10
+ExecStart=/home/reticulum/.local/bin/rnsd --service
+
+[Install]
+WantedBy=default.target
