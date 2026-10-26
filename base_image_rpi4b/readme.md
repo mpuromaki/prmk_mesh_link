@@ -28,6 +28,8 @@ sudo adduser --disabled-password middleware
 
 sudo adduser --disabled-password reticulum
 sudo usermod -aG dialout reticulum
+
+sudo mkdir /etc/flags
 ```
 
 ## Installing Reticulum
