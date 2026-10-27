@@ -56,39 +56,36 @@ sudo chmod 644 /opt/prmk/system/*
 ```
 
 ## Installing first time setup
+ℹ️ TODO: Add captive portal for hotspot  
+ℹ️ TODO: Install background tasks for updates  
+ℹ️ TODO: Remove build user  
+
 ```sh
 sudo ln -s /opt/prmk/system/prmk-setup-hotspot.service /etc/systemd/system/
 sudo ln -s /opt/prmk/system/prmk-setup-server.service /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable prmk-setup-server.service
 ```
-ℹ️ TODO: Add captive portal for hotspot  
-ℹ️ TODO: Install background tasks for updates etc  
-ℹ️ TODO: Remove build user  
 
 ## Installing Reticulum
+ℹ️ TODO: Install background tasks for updates  
 
 ```sh
 sudo su - reticulum
 
 pip install --user --break-system-packages rns
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-
-exit
-sudo su - reticulum
-
-rnsd
-ctrl^c
+mkdir .reticulum
+sudo wget -O /home/reticulum/.reticulum/config https://raw.githubusercontent.com/mpuromaki/prmk_mesh_link/...
 
 exit
 ```
 
+As build user:
 ```sh
 sudo ln -s /opt/prmk/system/prmk-rnsd.service /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable prmk-rnsd.service
-
-exit
 ```
 
 ## Cleaning and creating the image
