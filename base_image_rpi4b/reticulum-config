@@ -31,6 +31,6 @@ publish_blackhole = no
 loglevel = 4
 
 [interfaces]
-  [[Local Automatic IPv6]]
+  [[Local IPv6]]
     type = AutoInterface
     enabled = yes
