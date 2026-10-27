@@ -286,6 +286,22 @@ def apply_settings_and_reboot(root_pw, ssid, password, infra_allowed):
         except Exception as e:
             print(f"Error fetching trusted nodes (continuing setup anyway): {e}")
 
+        # Fetch trusted identities (discovery & blackhole sources)
+        identities_url = "https://mesh.prmk.fi/api/trusted-identities"
+        try:
+            print(f"Fetching trusted identities from {identities_url}...")
+            req = urllib.request.Request(identities_url, headers=headers)
+            with urllib.request.urlopen(req, timeout=10) as response:
+                if response.status == 200:
+                    identities_data = json.loads(response.read().decode('utf-8'))
+                    with open('/etc/prmk/trusted_identities.json', 'w') as f:
+                        json.dump(identities_data, f, indent=2)
+                    print("Trusted identities successfully saved to /etc/prmk/trusted_identities.json")
+                else:
+                    print(f"Failed to fetch trusted identities. HTTP Status: {response.status}")
+        except Exception as e:
+            print(f"Error fetching trusted identities (continuing setup): {e}")
+
     # Create first-time setup complete flag (Prevents hotspot & server from running on next boot)
     with open('/etc/flags/first_time_setup_complete', 'w') as f:
         f.write('done')
