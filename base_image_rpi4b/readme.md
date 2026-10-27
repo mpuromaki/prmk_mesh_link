@@ -28,6 +28,7 @@ sudo adduser --disabled-password reticulum
 sudo usermod -aG dialout reticulum
 
 sudo mkdir --parents /etc/flags
+sudo mkdir --parents /etc/prmk
 sudo mkdir --parents /opt/prmk/bin
 sudo mkdir --parents /opt/prmk/system
 
@@ -62,7 +63,6 @@ sudo systemctl daemon-reload
 sudo systemctl enable prmk-setup-server.service
 ```
 ℹ️ TODO: Add captive portal for hotspot  
-ℹ️ TODO: Fetch trusted nodes if allowed  
 ℹ️ TODO: Install background tasks for updates etc  
 ℹ️ TODO: Remove build user  
 
