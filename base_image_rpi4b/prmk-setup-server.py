@@ -266,11 +266,12 @@ def apply_settings_and_reboot(root_pw, ssid, password, infra_allowed):
 
         # Fetch trusted nodes from remote server
         api_url = "https://mesh.prmk.fi/api/trusted-nodes"
+        headers={"User-Agent": "PRMK-Mesh-Link-Setup/0.1"}
         try:
             print(f"Fetching trusted nodes from {api_url}...")
             req = urllib.request.Request(
                 api_url, 
-                headers={"User-Agent": "PRMK-Mesh-Link-Setup/0.1"}
+                headers=headers
             )
             with urllib.request.urlopen(req, timeout=10) as response:
                 if response.status == 200:
@@ -288,6 +289,7 @@ def apply_settings_and_reboot(root_pw, ssid, password, infra_allowed):
 
         # Fetch trusted identities (discovery & blackhole sources)
         identities_url = "https://mesh.prmk.fi/api/trusted-identities"
+        headers={"User-Agent": "PRMK-Mesh-Link-Setup/0.1"}
         try:
             print(f"Fetching trusted identities from {identities_url}...")
             req = urllib.request.Request(identities_url, headers=headers)
