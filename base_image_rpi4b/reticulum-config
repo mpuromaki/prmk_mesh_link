@@ -1,0 +1,36 @@
+[reticulum]
+enable_transport = yes
+share_instance = yes
+instance_name = default
+enable_remote_management = no
+# remote_management_allowed = 00112233445566778899aabbccddeeff
+# network_identity = ~/.reticulum/storage/identity/network
+discover_interfaces = no
+# interface_discovery_sources = 00112233445566778899aabbccddeeff
+# autoconnect_discovered_interfaces = 0
+# required_discovery_value = 14
+enable_interface_management = yes
+respond_to_probes = yes
+publish_blackhole = no
+# blackhole_sources = 00112233445566778899aabbccddeeff
+# blackhole_update_interval = 480
+
+
+[logging]
+# Valid log levels are 0 through 8:
+#   0: Log only critical information
+#   1: Log errors and lower log levels
+#   2: Log warnings and lower log levels
+#   3: Log notices and lower log levels
+#   4: Log info and lower (default)
+#   5: Verbose logging
+#   6: Debug logging
+#   7: Path logging
+#   8: Extreme logging
+
+loglevel = 4
+
+[interfaces]
+  [[Local Automatic IPv6]]
+    type = AutoInterface
+    enabled = yes
