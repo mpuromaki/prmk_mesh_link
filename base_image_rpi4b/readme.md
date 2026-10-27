@@ -76,7 +76,7 @@ sudo su - reticulum
 pip install --user --break-system-packages rns
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 mkdir .reticulum
-sudo wget -O /home/reticulum/.reticulum/config https://raw.githubusercontent.com/mpuromaki/prmk_mesh_link/...
+wget -O /home/reticulum/.reticulum/config https://raw.githubusercontent.com/mpuromaki/prmk_mesh_link/refs/heads/main/base_image_rpi4b/reticulum-config
 
 exit
 ```
