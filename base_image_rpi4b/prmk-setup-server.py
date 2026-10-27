@@ -238,7 +238,7 @@ def apply_settings_and_reboot(root_pw, ssid, password, infra_allowed):
     # Short pause to ensure the browser has finished reading the HTTP socket response
     time.sleep(3)
     
-    # 1. Change root password
+    # Change root password
     if root_pw:
         try:
             subprocess.run(['chpasswd'], input=f"root:{root_pw}".encode(), check=True)
@@ -246,7 +246,7 @@ def apply_settings_and_reboot(root_pw, ssid, password, infra_allowed):
         except Exception as e:
             print(f"Error updating root password: {e}")
 
-    # 2. Setup client Wi-Fi connection using NetworkManager (nmcli)
+    # Setup client Wi-Fi connection using NetworkManager (nmcli)
     if ssid and password:
         try:
             print(f"Connecting to Wi-Fi SSID: {ssid}")
@@ -255,19 +255,43 @@ def apply_settings_and_reboot(root_pw, ssid, password, infra_allowed):
         except Exception as e:
             print(f"Error connecting to Wi-Fi: {e}")
 
-    # 3. Handle infrastructure sync flag
+    # Handle infrastructure sync flag
     os.makedirs('/etc/flags', exist_ok=True)
+    os.makedirs('/etc/prmk', exist_ok=True)
+    
     if infra_allowed:
         with open('/etc/flags/infrastructure_sync_allowed', 'w') as f:
             f.write('true')
         print("Infrastructure sync flag enabled.")
 
-    # 4. Create first-time setup complete flag (Prevents hotspot & server from running on next boot)
+        # Fetch trusted nodes from remote server
+        api_url = "https://mesh.prmk.fi/api/trusted-nodes"
+        try:
+            print(f"Fetching trusted nodes from {api_url}...")
+            req = urllib.request.Request(
+                api_url, 
+                headers={"User-Agent": "PRMK-Mesh-Link-Setup/0.1"}
+            )
+            with urllib.request.urlopen(req, timeout=10) as response:
+                if response.status == 200:
+                    data = response.read().decode('utf-8')
+                    # Validate that it's valid JSON before saving
+                    parsed_json = json.loads(data)
+                    
+                    with open('/etc/prmk/trusted_nodes.json', 'w') as f:
+                        json.dump(parsed_json, f, indent=2)
+                    print("Trusted nodes successfully saved to /etc/prmk/trusted_nodes.json")
+                else:
+                    print(f"Failed to fetch trusted nodes. HTTP Status: {response.status}")
+        except Exception as e:
+            print(f"Error fetching trusted nodes (continuing setup anyway): {e}")
+
+    # Create first-time setup complete flag (Prevents hotspot & server from running on next boot)
     with open('/etc/flags/first_time_setup_complete', 'w') as f:
         f.write('done')
     print("First time setup flag created.")
 
-    # 5. Trigger full system reboot
+    # Trigger full system reboot
     print("Restarting system...")
     subprocess.run(['reboot'])
 
