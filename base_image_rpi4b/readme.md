@@ -58,7 +58,6 @@ sudo chmod 644 /opt/prmk/system/*
 ## Installing first time setup
 ℹ️ TODO: Add captive portal for hotspot  
 ℹ️ TODO: Install background tasks for updates  
-ℹ️ TODO: Remove build user  
 
 ```sh
 sudo ln -s /opt/prmk/system/prmk-setup-hotspot.service /etc/systemd/system/
@@ -88,6 +87,11 @@ sudo systemctl daemon-reload
 sudo systemctl enable prmk-rnsd.service
 ```
 
+## System hardening
+
 ## Cleaning and creating the image
+
+ℹ️ TODO: Remove build user  
+ℹ️ TODO: Disable SSH (user can enable it later via webui if needed)
 
 TBD.
